@@ -6,100 +6,77 @@ import model.enums.PaymentMethod;
 import java.util.Date;
 
 public class FuelTransaction {
+
+    private String transactionId;
     private String gasStationId;
     private String gasPumpId;
-    private String transactionId;
-    private Double fuelledAmount;
-    private Double payedAmount;
-    private PaymentMethod paymentMethod;
     private FuelType fuelType;
+    private double fuelledAmount;   // litros abastecidos
+    private double payedAmount;     // valor bruto cobrado (volume × preço)
+    private PaymentMethod paymentMethod;
+    private double totalReceived;   // valor líquido após taxa do método de pagamento
     private Date dateTime;
-    private Boolean isSimulated;
+    private boolean isSimulated;
 
-    public FuelTransaction(String gasStationId, FuelType fuelType, PaymentMethod paymentMethod, Double payedAmount,
-                           Double fuelledAmount, String gasPumpId, String transactionId, Date dateTime, Boolean isSimulated) {
-        this.gasStationId = gasStationId;
-        this.fuelType = fuelType;
-        this.paymentMethod = paymentMethod;
-        this.payedAmount = payedAmount;
-        this.fuelledAmount = fuelledAmount;
-        this.gasPumpId = gasPumpId;
-        this.transactionId = transactionId;
-        this.dateTime = dateTime;
-        this.isSimulated = isSimulated;
-    }
-
-    public Boolean getSimulated() {
-        return isSimulated;
-    }
-
-    public void setSimulated(Boolean simulated) {
-        isSimulated = simulated;
+    public FuelTransaction(String transactionId, String gasStationId, String gasPumpId,
+                           FuelType fuelType, double fuelledAmount, double payedAmount,
+                           PaymentMethod paymentMethod, Date dateTime, boolean isSimulated) {
+        this.transactionId  = transactionId;
+        this.gasStationId   = gasStationId;
+        this.gasPumpId      = gasPumpId;
+        this.fuelType       = fuelType;
+        this.fuelledAmount  = fuelledAmount;
+        this.payedAmount    = payedAmount;
+        this.paymentMethod  = paymentMethod;
+        this.dateTime       = dateTime;
+        this.isSimulated    = isSimulated;
     }
 
     public FuelTransaction() {}
 
-    public String getGasStationId() {
-        return gasStationId;
+
+    public void calcularValorLiquido() {
+        this.totalReceived = payedAmount * (1.0 - paymentMethod.getRate());
     }
 
-    public void setGasStationId(String gasStationId) {
-        this.gasStationId = gasStationId;
+    /**
+     * RF_F4 — Calcula o lucro bruto desta transação.
+     * lucro = payedAmount - (fuelledAmount × costPerLiter)
+     *
+     * @param costPerLiter custo de compra do combustível por litro (do último TankRefuel)
+     * @return lucro bruto da transação
+     */
+    public double calcularLucroBruto(double costPerLiter) {
+        return payedAmount - (fuelledAmount * costPerLiter);
     }
 
-    public String getGasPumpId() {
-        return gasPumpId;
-    }
+    public String getTransactionId() { return transactionId; }
+    public void setTransactionId(String transactionId) { this.transactionId = transactionId; }
 
-    public void setGasPumpId(String gasPumpId) {
-        this.gasPumpId = gasPumpId;
-    }
+    public String getGasStationId() { return gasStationId; }
+    public void setGasStationId(String gasStationId) { this.gasStationId = gasStationId; }
 
-    public Double getFuelledAmount() {
-        return fuelledAmount;
-    }
+    public String getGasPumpId() { return gasPumpId; }
+    public void setGasPumpId(String gasPumpId) { this.gasPumpId = gasPumpId; }
 
-    public void setFuelledAmount(Double fuelledAmount) {
-        this.fuelledAmount = fuelledAmount;
-    }
+    public FuelType getFuelType() { return fuelType; }
+    public void setFuelType(FuelType fuelType) { this.fuelType = fuelType; }
 
-    public Double getPayedAmount() {
-        return payedAmount;
-    }
+    public double getFuelledAmount() { return fuelledAmount; }
+    public void setFuelledAmount(double fuelledAmount) { this.fuelledAmount = fuelledAmount; }
 
-    public void setPayedAmount(Double payedAmount) {
-        this.payedAmount = payedAmount;
-    }
+    public double getPayedAmount() { return payedAmount; }
+    public void setPayedAmount(double payedAmount) { this.payedAmount = payedAmount; }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
+    public PaymentMethod getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
+    public double getTotalReceived() { return totalReceived; }
+    public void setTotalReceived(double totalReceived) { this.totalReceived = totalReceived; }
 
-    public FuelType getFuelType() {
-        return fuelType;
-    }
+    public Date getDateTime() { return dateTime; }
+    public void setDateTime(Date dateTime) { this.dateTime = dateTime; }
 
-    public void setFuelType(FuelType fuelType) {
-        this.fuelType = fuelType;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public Date getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
+    public boolean isSimulated() { return isSimulated; }
+    public void setSimulated(boolean simulated) { isSimulated = simulated; }
 }

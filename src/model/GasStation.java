@@ -1,90 +1,91 @@
 package model;
 
-public class GasStation {
-    private String gasStationId;
-    private String gasStationName;
-    private Double dieselPrice;
-    private Double gasolinePrice;
-    private Double ethanolPrice;
-    private Double totalExpenses;
-    private Double totalRevenue;
-    private Double profit;
+import model.enums.FuelType;
 
-    public GasStation(String gasStationId, String gasStationName, Double dieselPrice, Double gasolinePrice, Double ethanolPrice,
-                      Double totalExpenses, Double totalRevenue, Double profit) {
-        this.gasStationId = gasStationId;
-        this.gasStationName = gasStationName;
-        this.dieselPrice = dieselPrice;
+/**
+ * Entidade GasStation
+ */
+public class GasStation {
+
+    private String gasStationId;
+    private String name;
+    private String address;
+    private String cnpj;
+    private double gasolinePrice;
+    private double dieselPrice;
+    private double ethanolPrice;
+    private double totalRevenue;
+    private double totalExpenses;
+    private double profit;
+
+    public GasStation(String gasStationId, String name, String address, String cnpj,
+                      double gasolinePrice, double dieselPrice, double ethanolPrice,
+                      double totalRevenue, double totalExpenses) {
+        this.gasStationId  = gasStationId;
+        this.name          = name;
+        this.address       = address;
+        this.cnpj          = cnpj;
         this.gasolinePrice = gasolinePrice;
-        this.ethanolPrice = ethanolPrice;
+        this.dieselPrice   = dieselPrice;
+        this.ethanolPrice  = ethanolPrice;
+        this.totalRevenue  = totalRevenue;
         this.totalExpenses = totalExpenses;
-        this.totalRevenue = totalRevenue;
-        this.profit = profit;
+        recalcularLucro();
     }
 
     public GasStation() {}
 
-    public String getGasStationId() {
-        return gasStationId;
+    /**
+     * RN implicita — profit = totalRevenue - totalExpenses.
+     * Deve ser chamado pelo Controller sempre que revenue ou expenses mudar.
+     */
+    public void recalcularLucro() {
+        this.profit = this.totalRevenue - this.totalExpenses;
     }
 
-    public void setGasStationId(String gasStationId) {
-        this.gasStationId = gasStationId;
+    /**
+     * Retorna o preço por litro do tipo de combustível informado.
+     *
+     * @param fuelType tipo de combustível
+     * @return preço por litro
+     * @throws IllegalArgumentException se o tipo não for reconhecido
+     */
+    public double obterPreco(FuelType fuelType) {
+        switch (fuelType) {
+            case GASOLINA: return gasolinePrice;
+            case DIESEL:   return dieselPrice;
+            case ETANOL:   return ethanolPrice;
+            default: throw new IllegalArgumentException("Tipo de combustível desconhecido: " + fuelType);
+        }
     }
 
-    public String getGasStationName() {
-        return gasStationName;
-    }
+    public String getGasStationId() { return gasStationId; }
+    public void setGasStationId(String gasStationId) { this.gasStationId = gasStationId; }
 
-    public void setGasStationName(String gasStationName) {
-        this.gasStationName = gasStationName;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public Double getDieselPrice() {
-        return dieselPrice;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setDieselPrice(Double dieselPrice) {
-        this.dieselPrice = dieselPrice;
-    }
+    public String getCnpj() { return cnpj; }
+    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 
-    public Double getGasolinePrice() {
-        return gasolinePrice;
-    }
+    public double getGasolinePrice() { return gasolinePrice; }
+    public void setGasolinePrice(double gasolinePrice) { this.gasolinePrice = gasolinePrice; }
 
-    public void setGasolinePrice(Double gasolinePrice) {
-        this.gasolinePrice = gasolinePrice;
-    }
+    public double getDieselPrice() { return dieselPrice; }
+    public void setDieselPrice(double dieselPrice) { this.dieselPrice = dieselPrice; }
 
-    public Double getEthanolPrice() {
-        return ethanolPrice;
-    }
+    public double getEthanolPrice() { return ethanolPrice; }
+    public void setEthanolPrice(double ethanolPrice) { this.ethanolPrice = ethanolPrice; }
 
-    public void setEthanolPrice(Double ethanolPrice) {
-        this.ethanolPrice = ethanolPrice;
-    }
+    public double getTotalRevenue() { return totalRevenue; }
+    public void setTotalRevenue(double totalRevenue) { this.totalRevenue = totalRevenue; }
 
-    public Double getTotalExpenses() {
-        return totalExpenses;
-    }
+    public double getTotalExpenses() { return totalExpenses; }
+    public void setTotalExpenses(double totalExpenses) { this.totalExpenses = totalExpenses; }
 
-    public void setTotalExpenses(Double totalExpenses) {
-        this.totalExpenses = totalExpenses;
-    }
-
-    public Double getTotalRevenue() {
-        return totalRevenue;
-    }
-
-    public void setTotalRevenue(Double totalRevenue) {
-        this.totalRevenue = totalRevenue;
-    }
-
-    public Double getProfit() {
-        return profit;
-    }
-
-    public void setProfit(Double profit) {
-        this.profit = profit;
-    }
+    public double getProfit() { return profit; }
+    public void setProfit(double profit) { this.profit = profit; }
 }

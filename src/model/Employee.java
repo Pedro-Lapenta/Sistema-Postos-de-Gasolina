@@ -1,72 +1,51 @@
 package model;
 
-import javax.management.relation.Role;
+import model.enums.Role;
 
+/**
+ * Entidade Employee
+ */
 public class Employee {
-    private String gasStationId;
+
     private String employeeId;
+    private String gasStationId;
     private String employeeName;
-    private Double salary;
-    private Boolean isActive;
+    private double salary;
+    private String password;
     private Role role;
+    private boolean isActive;
 
-
-    public Employee(String gasStationId, Double salary, String employeeId, String employeeName, Boolean isActive, Role role) {
+    public Employee(String employeeId, String gasStationId, String employeeName,
+                    double salary, String password, Role role) {
+        this.employeeId   = employeeId;
         this.gasStationId = gasStationId;
-        this.salary = salary;
-        this.employeeId = employeeId;
         this.employeeName = employeeName;
-        this.isActive = isActive;
-        this.role = role;
+        this.salary       = salary;
+        this.password     = password;
+        this.role         = role;
+        this.isActive     = true;
     }
 
     public Employee() {}
 
-    public Boolean getActive() {
-        return isActive;
-    }
+    public String getEmployeeId() { return employeeId; }
+    public void setEmployeeId(String employeeId) { this.employeeId = employeeId; }
 
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
+    public String getGasStationId() { return gasStationId; }
+    public void setGasStationId(String gasStationId) { this.gasStationId = gasStationId; }
 
-    public Role getRole() {
-        return role;
-    }
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    public double getSalary() { return salary; }
+    public void setSalary(double salary) { this.salary = salary; }
 
-    public String getGasStationId() {
-        return gasStationId;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setGasStationId(String gasStationId) {
-        this.gasStationId = gasStationId;
-    }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
-    }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 }
